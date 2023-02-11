@@ -1,0 +1,8 @@
+{
+  "prettier.default-config.arrowParens" : "always",
+  "prettier.default-config.printWidth" : 120,
+  "prettier.default-config.semi" : "Disable",
+  "prettier.default-config.singleQuote" : "Enable",
+  "prettier.default-config.tabWidth" : 2,
+  "prettier.default-config.useTabs" : "Disable"
+}
