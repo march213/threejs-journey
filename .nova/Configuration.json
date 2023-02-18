@@ -1,4 +1,10 @@
 {
+  "index.ignored_file_patterns" : [
+    "node_modules\/*",
+    "*\/node_modules\/*",
+    "*\/node_modules\/**"
+  ],
+  "index.use_scm_ignored_files" : true,
   "prettier.default-config.arrowParens" : "always",
   "prettier.default-config.printWidth" : 120,
   "prettier.default-config.semi" : "Disable",
