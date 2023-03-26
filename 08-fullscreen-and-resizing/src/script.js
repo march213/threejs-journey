@@ -40,6 +40,29 @@ window.addEventListener('resize', () => {
 
   // Update renderer
   renderer.setSize(sizes.width, sizes.height);
+  // if output screen was changed, let's update the pixel ratio as well
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+});
+
+window.addEventListener('dblclick', () => {
+  const fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
+
+  // if we are in fullscreen mode
+  if (fullscreenElement) {
+    // exit fullscreen mode
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    }
+  } else {
+    // enter fullscreen mode
+    if (canvas.requestFullscreen) {
+      canvas.requestFullscreen();
+    } else if (canvas.webkitRequestFullscreen) {
+      canvas.webkitRequestFullscreen();
+    }
+  }
 });
 
 /**
@@ -61,6 +84,10 @@ const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
 });
 renderer.setSize(sizes.width, sizes.height);
+// Important to not get crazy with pixel ratio
+// usually 2 is enough,
+// otherwise it will be very hard to compute on GPU
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 /**
  * Animate
