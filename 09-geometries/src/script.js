@@ -13,19 +13,13 @@ const scene = new THREE.Scene();
 // Object
 // const geometry = new THREE.BoxGeometry(1, 1, 1, 3, 3, 3);
 const geometry = new THREE.BufferGeometry();
-const positionsArray = new Float32Array(9);
+const count = 5000;
+// count is a number of triangles, where each triangle has 3 vertices, and each vertex has 3 values (x, y, z)
+const positionsArray = new Float32Array(count * 3 * 3);
 
-positionsArray[0] = 0;
-positionsArray[1] = 0;
-positionsArray[2] = 0;
-
-positionsArray[3] = 0;
-positionsArray[4] = 1;
-positionsArray[5] = 0;
-
-positionsArray[6] = 1;
-positionsArray[7] = 0;
-positionsArray[8] = 0;
+for (let i = 0; i < count * 3 * 3; i++) {
+  positionsArray[i] = (Math.random() - 0.5) * 4;
+}
 
 const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3);
 
