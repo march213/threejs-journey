@@ -9,6 +9,18 @@ import * as dat from 'lil-gui';
 
 const gui = new dat.GUI({ width: 340 });
 
+const parameters = {
+  spin: () => {
+    gsap.to(
+      mesh.rotation,
+      {
+        duration: 1,
+        y: mesh.rotation.y + Math.PI * 2
+      });
+  },
+}
+
+
 /**
  * Base
  */
@@ -25,6 +37,28 @@ const geometry = new THREE.BoxGeometry(1, 1, 1);
 const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
+
+// debug
+gui
+  .add(mesh.position, 'y', -1, 1, 0.01);
+gui
+  .add(mesh.position, 'x')
+  .min(-1)
+  .max(1)
+  .step(0.01)
+  .name('red cube x-axis');
+gui
+  .add(mesh.position, 'z')
+  .min(-1)
+  .max(1)
+  .step(0.01);
+gui
+  .add(material, 'wireframe');
+gui
+  .addColor(material, 'color');
+
+gui
+  .add(parameters, 'spin');
 
 /**
  * Sizes
