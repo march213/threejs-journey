@@ -5,14 +5,38 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
  * Textures
  */
 
-const image = new Image();
-const texture = new THREE.Texture(image);
+// const image = new Image();
+// const texture = new THREE.Texture(image);
 
-image.addEventListener('load', () => {
-  // Update texture
-  texture.needsUpdate = true;
-});
-image.src = '/textures/door/color.jpg';
+// image.addEventListener('load', () => {
+//   // Update texture
+//   texture.needsUpdate = true;
+// });
+// image.src = '/textures/door/color.jpg';
+
+const loadingManager = new THREE.LoadingManager();
+
+loadingManager.onStart = () => {
+  console.log('start');
+};
+loadingManager.onLoad = () => {
+  console.log('load');
+};
+loadingManager.onProgress = () => {
+  console.log('progress');
+};
+loadingManager.onError = () => {
+  console.log('error');
+};
+
+const textureLoader = new THREE.TextureLoader(loadingManager);
+const colorTexture = textureLoader.load('/textures/door/color.jpg');
+const alphaTexture = textureLoader.load('/textures/door/alpha.jpg');
+const heightTexture = textureLoader.load('/textures/door/height.jpg');
+const normalTexture = textureLoader.load('/textures/door/normal.jpg');
+const ambientOcclusionTexture = textureLoader.load('/textures/door/ambientOcclusion.jpg');
+const metalnessTexture = textureLoader.load('/textures/door/metalness.jpg');
+const roughnessTexture = textureLoader.load('/textures/door/roughness.jpg');
 
 /**
  * Base
@@ -33,7 +57,7 @@ const geometry = new THREE.BoxGeometry(
 );
 const material = new THREE.MeshBasicMaterial({
   // color: 0xff0000,
-  map: texture,
+  map: colorTexture,
 });
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
