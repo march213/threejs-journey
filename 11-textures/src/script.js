@@ -2,6 +2,19 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 /**
+ * Textures
+ */
+
+const image = new Image();
+const texture = new THREE.Texture(image);
+
+image.addEventListener('load', () => {
+  // Update texture
+  texture.needsUpdate = true;
+});
+image.src = '/textures/door/color.jpg';
+
+/**
  * Base
  */
 // Canvas
@@ -19,10 +32,11 @@ const geometry = new THREE.BoxGeometry(
   1,
 );
 const material = new THREE.MeshBasicMaterial({
-  color: 0xff0000,
+  // color: 0xff0000,
+  map: texture,
 });
 const mesh = new THREE.Mesh(geometry, material);
-scene.add(mesh );
+scene.add(mesh);
 
 /**
  * Sizes
@@ -72,8 +86,7 @@ renderer.setPixelRatio(Math.min(
 // Resize
 window.addEventListener(
   'resize',
-  () =>
-  {
+  () => {
   // Update sizes
     sizes.width = window.innerWidth;
     sizes.height = window.innerHeight;
@@ -99,8 +112,7 @@ window.addEventListener(
  */
 const clock = new THREE.Clock();
 
-const tick = () =>
-{
+const tick = () => {
   const elapsedTime = clock.getElapsedTime();
 
   // Update controls
