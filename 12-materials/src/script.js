@@ -70,12 +70,14 @@ material.map = doorColorTexture;
 material.aoMap = doorAmbientOcclusionTexture;
 material.aoMapIntensity = 1;
 material.displacementMap = doorHeightTexture;
+material.displacementScale = 0.05;
 
 // material.wireframe = true;
 
 gui.add(material, 'metalness', 0, 1, 0.001);
 gui.add(material, 'roughness', 0, 1, 0.001);
 gui.add(material, 'aoMapIntensity', 0, 2, 0.001);
+gui.add(material, 'displacementScale', 0, 0.5, 0.001);
 
 // to make displacementMap work correctly with need to increase the number of segments (subdivisions)
 // doing it from 16, 16 to 64, 64
