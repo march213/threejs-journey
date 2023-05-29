@@ -69,12 +69,18 @@ material.roughness = 0.4;
 material.map = doorColorTexture;
 material.aoMap = doorAmbientOcclusionTexture;
 material.aoMapIntensity = 1;
+material.displacementMap = doorHeightTexture;
+
+// material.wireframe = true;
+
 gui.add(material, 'metalness', 0, 1, 0.001);
 gui.add(material, 'roughness', 0, 1, 0.001);
 gui.add(material, 'aoMapIntensity', 0, 2, 0.001);
 
+// to make displacementMap work correctly with need to increase the number of segments (subdivisions)
+// doing it from 16, 16 to 64, 64
 const sphere = new THREE.Mesh(
-  new THREE.SphereGeometry(0.5, 16, 16),
+  new THREE.SphereGeometry(0.5, 64, 64),
   material,
 );
 sphere.position.x = -1.5;
@@ -83,8 +89,10 @@ sphere.geometry.setAttribute(
   new THREE.BufferAttribute(sphere.geometry.attributes.uv.array, 2),
 );
 
+// to make displacementMap work correctly with need to increase the number of segments (subdivisions)
+// doing it from default to 100, 100
 const plane = new THREE.Mesh(
-  new THREE.PlaneGeometry(1, 1),
+  new THREE.PlaneGeometry(1, 1, 100, 100),
   material,
 );
 plane.geometry.setAttribute(
@@ -92,8 +100,10 @@ plane.geometry.setAttribute(
   new THREE.BufferAttribute(plane.geometry.attributes.uv.array, 2),
 );
 
+// to make displacementMap work correctly with need to increase the number of segments (subdivisions)
+// doing it from 16, 32 to 64, 128
 const torus = new THREE.Mesh(
-  new THREE.TorusGeometry(0.3, 0.2, 16, 32),
+  new THREE.TorusGeometry(0.3, 0.2, 64, 128),
   material,
 );
 torus.position.x = 1.5;
