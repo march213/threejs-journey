@@ -64,13 +64,21 @@ const scene = new THREE.Scene();
 // material.gradientMap = gradientTexture;
 
 const material = new THREE.MeshStandardMaterial();
-material.metalness = 0.4;
-material.roughness = 0.4;
+
 material.map = doorColorTexture;
 material.aoMap = doorAmbientOcclusionTexture;
 material.aoMapIntensity = 1;
 material.displacementMap = doorHeightTexture;
 material.displacementScale = 0.05;
+// dont use metalness and roughness together with the map
+// so comment them out
+// material.metalness = 0.4;
+// material.roughness = 0.4;
+// or it is possible to use defaullt values
+material.metalness = 0;
+material.roughness = 1;
+material.metalnessMap = doorMetalnessTexture;
+material.roughnessMap = doorRoughnessTexture;
 
 // material.wireframe = true;
 
