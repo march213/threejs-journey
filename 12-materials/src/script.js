@@ -9,6 +9,7 @@ const gui = new GUI();
  */
 
 const textureLoader = new THREE.TextureLoader();
+const cubeTextureLoader = new THREE.CubeTextureLoader();
 
 const doorColorTexture = textureLoader.load('/textures/door/color.jpg');
 const doorAlphaTexture = textureLoader.load('/textures/door/alpha.jpg');
@@ -22,6 +23,16 @@ const gradientTexture = textureLoader.load('/textures/gradients/5.jpg');
 gradientTexture.minFilter = THREE.NearestFilter;
 gradientTexture.magFilter = THREE.NearestFilter;
 gradientTexture.generateMipmaps = false;
+
+// load environment maps texture
+const environmentMapTexture = cubeTextureLoader.load([
+  '/textures/environmentMaps/0/px.jpg',
+  '/textures/environmentMaps/0/nx.jpg',
+  '/textures/environmentMaps/0/py.jpg',
+  '/textures/environmentMaps/0/ny.jpg',
+  '/textures/environmentMaps/0/pz.jpg',
+  '/textures/environmentMaps/0/nz.jpg',
+]);
 
 /**
  * Base
@@ -63,29 +74,44 @@ const scene = new THREE.Scene();
 // const material = new THREE.MeshToonMaterial();
 // material.gradientMap = gradientTexture;
 
-const material = new THREE.MeshStandardMaterial();
+// const material = new THREE.MeshStandardMaterial();
 
-material.map = doorColorTexture;
-material.aoMap = doorAmbientOcclusionTexture;
-material.aoMapIntensity = 1;
-material.displacementMap = doorHeightTexture;
-material.displacementScale = 0.05;
+// material.map = doorColorTexture;
+// material.aoMap = doorAmbientOcclusionTexture;
+// material.aoMapIntensity = 1;
+// material.displacementMap = doorHeightTexture;
+// material.displacementScale = 0.05;
 // dont use metalness and roughness together with the map
 // so comment them out
 // material.metalness = 0.4;
 // material.roughness = 0.4;
 // or it is possible to use defaullt values
-material.metalness = 0;
-material.roughness = 1;
-material.metalnessMap = doorMetalnessTexture;
-material.roughnessMap = doorRoughnessTexture;
+// material.metalness = 0;
+// material.roughness = 1;
+// material.metalnessMap = doorMetalnessTexture;
+// material.roughnessMap = doorRoughnessTexture;
+// material.normalMap = doorNormalTexture;
+// normalScale is used to increase the intensity of the normal map
+// material.normalScale.set(0.5, 0.5);
+// material.alphaMap = doorAlphaTexture;
+// dont forget to set transparent to true if you want to use alphaMap
+// material.transparent = true;
+
+// gui.add(material, 'metalness', 0, 1, 0.001);
+// gui.add(material, 'roughness', 0, 1, 0.001);
+// gui.add(material, 'aoMapIntensity', 0, 2, 0.001);
+// gui.add(material, 'displacementScale', 0, 0.5, 0.001);
 
 // material.wireframe = true;
 
+// last part of the lesson, need to comment out all the code above related to material
+const material = new THREE.MeshStandardMaterial();
+material.metalness = 0.7;
+material.roughness = 0.2;
+material.envMap = environmentMapTexture;
+
 gui.add(material, 'metalness', 0, 1, 0.001);
 gui.add(material, 'roughness', 0, 1, 0.001);
-gui.add(material, 'aoMapIntensity', 0, 2, 0.001);
-gui.add(material, 'displacementScale', 0, 0.5, 0.001);
 
 // to make displacementMap work correctly with need to increase the number of segments (subdivisions)
 // doing it from 16, 16 to 64, 64
