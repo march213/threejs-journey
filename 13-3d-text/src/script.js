@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 import * as dat from 'lil-gui';
 
 /**
@@ -20,14 +22,26 @@ const scene = new THREE.Scene();
 const textureLoader = new THREE.TextureLoader();
 
 /**
- * Object
+ * Fonts
  */
-const cube = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
-  new THREE.MeshBasicMaterial(),
-);
 
-scene.add(cube);
+const fontLoader = new FontLoader();
+fontLoader.load('/fonts/helvetiker_regular.typeface.json', (font) => {
+  const textGeometry = new TextGeometry('Jane Molodetskaya', {
+    font,
+    size: 0.5,
+    height: 0.2,
+    curveSegments: 12,
+    bevelEnabled: true,
+    bevelThickness: 0.03,
+    bevelSize: 0.02,
+    bevelOffset: 0,
+    bevelSegments: 5,
+  });
+  const textMaterial = new THREE.MeshBasicMaterial();
+  const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+  scene.add(textMesh);
+});
 
 /**
  * Sizes
