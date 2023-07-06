@@ -4,6 +4,9 @@ import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 import * as dat from 'lil-gui';
 
+// Start of the code
+THREE.ColorManagement.enabled = false;
+
 /**
  * Base
  */
@@ -15,6 +18,10 @@ const canvas = document.querySelector('canvas.webgl');
 
 // Scene
 const scene = new THREE.Scene();
+
+// Axes helper
+const axesHelper = new THREE.AxesHelper();
+scene.add(axesHelper);
 
 /**
  * Textures
@@ -88,6 +95,7 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
 
 /**
  * Animate
