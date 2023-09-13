@@ -16,6 +16,10 @@ const canvas = document.querySelector('canvas.webgl');
 // Scene
 const scene = new THREE.Scene();
 
+// Shadow texture
+const textureLoader = new THREE.TextureLoader();
+const bakedShadow = textureLoader.load('textures/bakedShadow.jpg');
+
 /**
  * Lights
  */
@@ -94,7 +98,12 @@ gui.add(material, 'roughness').min(0).max(1).step(0.001);
 const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), material);
 sphere.castShadow = true;
 
-const plane = new THREE.Mesh(new THREE.PlaneGeometry(5, 5), material);
+const plane = new THREE.Mesh(
+  new THREE.PlaneGeometry(5, 5),
+  new THREE.MeshBasicMaterial({
+    map: bakedShadow,
+  }),
+);
 plane.rotation.x = -Math.PI * 0.5;
 plane.position.y = -0.5;
 plane.receiveShadow = true;
