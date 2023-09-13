@@ -27,7 +27,7 @@ scene.add(ambientLight);
 // Directional light
 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.3);
 directionalLight.position.set(2, 2, -1);
-directionalLight.castShadow = true;
+directionalLight.castShadow = false;
 directionalLight.shadow.mapSize.width = 1024;
 directionalLight.shadow.mapSize.height = 1024;
 directionalLight.shadow.camera.top = 2;
@@ -50,7 +50,7 @@ scene.add(directionalLight);
 
 // Spotlight
 const spotLight = new THREE.SpotLight(0xffffff, 0.3, 10, Math.PI * 0.3);
-spotLight.castShadow = true;
+spotLight.castShadow = false;
 spotLight.position.set(0, 2, 2);
 spotLight.shadow.mapSize.width = 1024;
 spotLight.shadow.mapSize.height = 1024;
@@ -68,7 +68,7 @@ scene.add(spotLightCameraHelper);
 // Point light
 const pointLight = new THREE.PointLight(0xffffff, 0.3);
 pointLight.position.set(-1, 1, 0);
-pointLight.castShadow = true;
+pointLight.castShadow = false;
 pointLight.shadow.mapSize.width = 1024;
 pointLight.shadow.mapSize.height = 1024;
 pointLight.shadow.camera.near = 0.1;
@@ -143,7 +143,7 @@ controls.enableDamping = true;
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
 });
-renderer.shadowMap.enabled = true;
+renderer.shadowMap.enabled = false;
 // renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
 renderer.setSize(sizes.width, sizes.height);
