@@ -25,6 +25,14 @@ scene.fog = fog;
  */
 const textureLoader = new THREE.TextureLoader();
 
+const doorColorTextures = textureLoader.load('/textures/door/color.jpg');
+const doorAlphaTextures = textureLoader.load('/textures/door/alpha.jpg');
+const doorAmbientOcclusionTextures = textureLoader.load('/textures/door/ambientOcclusion.jpg');
+const doorHeightTextures = textureLoader.load('/textures/door/height.jpg');
+const doorNormalTextures = textureLoader.load('/textures/door/normal.jpg');
+const doorMetalnessTextures = textureLoader.load('/textures/door/metalness.jpg');
+const doorRoughnessTextures = textureLoader.load('/textures/door/roughness.jpg');
+
 /**
  * House
  */
@@ -58,10 +66,18 @@ house.add(roof);
 const door = new THREE.Mesh(
   new THREE.PlaneGeometry(1.5, 2),
   new THREE.MeshStandardMaterial({
-    color: '#aa7b7b',
+    map: doorColorTextures,
+    transparent: true,
+    alphaMap: doorAlphaTextures,
+    aoMap: doorAmbientOcclusionTextures,
+    displacementMap: doorHeightTextures,
+    displacementScale: 0.1,
+    normalMap: doorNormalTextures,
+    metalnessMap: doorMetalnessTextures,
+    roughnessMap: doorRoughnessTextures,
   }),
 );
-door.position.y = 1;
+door.position.y = 1 - 0.1;
 door.position.z = 2 + 0.01;
 house.add(door);
 
