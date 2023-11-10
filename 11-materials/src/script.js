@@ -10,6 +10,23 @@ const canvas = document.querySelector('canvas.webgl');
 // Scene
 const scene = new THREE.Scene();
 
+// Textures
+const loader = new THREE.TextureLoader();
+
+const doorColorTexture = loader.load('./textures/door/color.jpg');
+doorColorTexture.colorSpace = THREE.SRGBColorSpace;
+const doorAlphaTexture = loader.load('./textures/door/alpha.jpg');
+const doorAmbientOcclusionTexture = loader.load('./textures/door/ambientOcclusion.jpg');
+const doorHeightTexture = loader.load('./textures/door/height.jpg');
+const doorNormalTexture = loader.load('./textures/door/normal.jpg');
+const doorMetalnessTexture = loader.load('./textures/door/metalness.jpg');
+const doorRoughnessTexture = loader.load('./textures/door/roughness.jpg');
+
+const matcapTexture = loader.load('./textures/matcaps/1.png');
+matcapTexture.colorSpace = THREE.SRGBColorSpace;
+
+const gradientTexture = loader.load('./textures/gradients/3.jpg');
+
 // MeshBasicMaterial
 const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 
@@ -78,6 +95,15 @@ const clock = new THREE.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
+
+  // Rotate objects
+  sphereMesh.rotation.y = 0.1 * elapsedTime;
+  planeMesh.rotation.y = 0.1 * elapsedTime;
+  torusMesh.rotation.y = 0.1 * elapsedTime;
+
+  sphereMesh.rotation.x = -0.15 * elapsedTime;
+  planeMesh.rotation.x = -0.15 * elapsedTime;
+  torusMesh.rotation.x = -0.15 * elapsedTime;
 
   // Update controls
   controls.update();
