@@ -1,5 +1,10 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import GUI from 'lil-gui';
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
+
+// Debug
+const gui = new GUI({ width: 300 });
 
 /**
  * Base
@@ -14,7 +19,6 @@ const scene = new THREE.Scene();
 const loader = new THREE.TextureLoader();
 
 const doorColorTexture = loader.load('./textures/door/color.jpg');
-doorColorTexture.colorSpace = THREE.SRGBColorSpace;
 const doorAlphaTexture = loader.load('./textures/door/alpha.jpg');
 const doorAmbientOcclusionTexture = loader.load('./textures/door/ambientOcclusion.jpg');
 const doorHeightTexture = loader.load('./textures/door/height.jpg');
@@ -22,13 +26,77 @@ const doorNormalTexture = loader.load('./textures/door/normal.jpg');
 const doorMetalnessTexture = loader.load('./textures/door/metalness.jpg');
 const doorRoughnessTexture = loader.load('./textures/door/roughness.jpg');
 
-const matcapTexture = loader.load('./textures/matcaps/1.png');
+const matcapTexture = loader.load('./textures/matcaps/8.png');
+
+// Set door and matcap color space to sRGB
+doorColorTexture.colorSpace = THREE.SRGBColorSpace;
 matcapTexture.colorSpace = THREE.SRGBColorSpace;
 
-const gradientTexture = loader.load('./textures/gradients/3.jpg');
+const gradientTexture = loader.load('./textures/gradients/5.jpg');
 
 // MeshBasicMaterial
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+// const material = new THREE.MeshBasicMaterial();
+// material.map = doorColorTexture;
+// material.color = new THREE.Color('#f30');
+// material.wireframe = true;
+// material.transparent = true;
+// material.opacity = 0.5;
+// material.alphaMap = doorAlphaTexture;
+// material.side = THREE.DoubleSide;
+
+// MeshNormalMaterial
+// const material = new THREE.MeshNormalMaterial({});
+// material.flatShading = true;
+
+// MeshMatcapMaterial
+// const material = new THREE.MeshMatcapMaterial();
+// material.matcap = matcapTexture;
+
+// MeshDepthMaterial
+// const material = new THREE.MeshDepthMaterial();
+
+// MeshLambertMaterial
+// const material = new THREE.MeshLambertMaterial();
+
+// MeshPhongMaterial
+// const material = new THREE.MeshPhongMaterial();
+// material.shininess = 10;
+// material.specular = new THREE.Color('#1188ff');
+
+// MeshToonMaterial
+// const material = new THREE.MeshToonMaterial();
+// gradientTexture.minFilter = THREE.NearestFilter;
+// gradientTexture.magFilter = THREE.NearestFilter;
+// gradientTexture.generateMipmaps = false;
+// material.gradientMap = gradientTexture;
+
+// MeshStandardMaterial
+const material = new THREE.MeshStandardMaterial();
+material.metalness = 0.7;
+material.roughness = 0.2;
+gui.add(material, 'metalness').min(0).max(1).step(0.0001);
+gui.add(material, 'roughness').min(0).max(1).step(0.0001);
+
+// Lights
+// when there is an environment map sometimes it is not necessary to keep lights
+// const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+// scene.add(ambientLight);
+
+// const pointLight = new THREE.PointLight(0xffffff, 30);
+// pointLight.position.x = 2;
+// pointLight.position.y = 3;
+// pointLight.position.z = 4;
+// scene.add(pointLight);
+
+/**
+ * Environment map
+ */
+const rgbeLoader = new RGBELoader();
+rgbeLoader.load('./textures/environmentMap/2k.hdr', (envMap) => {
+  envMap.mapping = THREE.EquirectangularReflectionMapping;
+  scene.background = envMap;
+  scene.environment = envMap;
+});
 
 // Objects
 const sphereGeometry = new THREE.SphereGeometry(0.5, 16, 16);
