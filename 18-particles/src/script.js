@@ -36,24 +36,31 @@ particlesMaterial.alphaMap = particleTexture;
 // particlesMaterial.alphaTest = 0.001;
 // particlesMaterial.depthTest = false;
 particlesMaterial.depthWrite = false;
+// impact on performance
+particlesMaterial.blending = THREE.AdditiveBlending;
+particlesMaterial.vertexColors = true;
 
 const customParticlesGeometry = new THREE.BufferGeometry();
-const particlesCount = 5000;
+const particlesCount = 20000;
 
 const positionArray = new Float32Array(particlesCount * 3);
+const colorArray = new Float32Array(particlesCount * 3);
 
 for (let i = 0; i < particlesCount * 3; i++) {
   positionArray[i] = (Math.random() - 0.5) * 10;
+  colorArray[i] = Math.random();
 }
 
 customParticlesGeometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3));
+customParticlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
 
 // Points
 const particles = new THREE.Points(customParticlesGeometry, particlesMaterial);
 scene.add(particles);
 
-const cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: 'red' }));
-scene.add(cube);
+// Cube
+// const cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: 'red' }));
+// scene.add(cube);
 
 /**
  * Sizes
