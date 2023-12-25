@@ -115,13 +115,13 @@ const tick = () => {
   const elapsedTime = clock.getElapsedTime();
 
   // particles.rotation.y = elapsedTime * 0.2;
-  for (let i = 0; i < particlesCount; i++) {
-    const i3 = i * 3;
-    const x = customParticlesGeometry.attributes.position.array[i3];
-    customParticlesGeometry.attributes.position.array[i3 + 1] = Math.sin(elapsedTime + x);
-  }
+  // for (let i = 0; i < particlesCount; i++) {
+  //   const i3 = i * 3;
+  //   const x = customParticlesGeometry.attributes.position.array[i3];
+  //   customParticlesGeometry.attributes.position.array[i3 + 1] = Math.sin(elapsedTime + x);
+  // }
 
-  customParticlesGeometry.attributes.position.needsUpdate = true;
+  // customParticlesGeometry.attributes.position.needsUpdate = true;
 
   // Update controls
   controls.update();
