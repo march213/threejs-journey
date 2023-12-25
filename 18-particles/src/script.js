@@ -20,25 +20,39 @@ const scene = new THREE.Scene();
  * Textures
  */
 const textureLoader = new THREE.TextureLoader();
+const particleTexture = textureLoader.load('/textures/particles/2.png');
 
 /**
  * Particles
  */
 
-const particlesGeometry = new THREE.SphereGeometry(1, 32, 32);
-const particlesMaterial = new THREE.PointsMaterial({
-  size: 0.02,
-  sizeAttenuation: true,
-});
+// const particlesGeometry = new THREE.SphereGeometry(1, 32, 32);
+const particlesMaterial = new THREE.PointsMaterial();
+particlesMaterial.size = 0.1;
+particlesMaterial.sizeAttenuation = true;
+particlesMaterial.color = new THREE.Color('white');
+particlesMaterial.transparent = true;
+particlesMaterial.alphaMap = particleTexture;
+// particlesMaterial.alphaTest = 0.001;
+// particlesMaterial.depthTest = false;
+particlesMaterial.depthWrite = false;
+
+const customParticlesGeometry = new THREE.BufferGeometry();
+const particlesCount = 5000;
+
+const positionArray = new Float32Array(particlesCount * 3);
+
+for (let i = 0; i < particlesCount * 3; i++) {
+  positionArray[i] = (Math.random() - 0.5) * 10;
+}
+
+customParticlesGeometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3));
 
 // Points
-const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+const particles = new THREE.Points(customParticlesGeometry, particlesMaterial);
 scene.add(particles);
 
-/**
- * Test cube
- */
-const cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial());
+const cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: 'red' }));
 scene.add(cube);
 
 /**
