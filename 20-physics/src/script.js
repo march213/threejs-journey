@@ -179,16 +179,17 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 const objectsToUpdate = [];
 
+const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
+const sphereMaterial = new THREE.MeshStandardMaterial({
+  metalness: 0.3,
+  roughness: 0.4,
+  envMap: environmentMapTexture,
+  envMapIntensity: 0.5,
+});
+
 const createSphere = (radius, position) => {
-  const mesh = new THREE.Mesh(
-    new THREE.SphereGeometry(radius, 32, 32),
-    new THREE.MeshStandardMaterial({
-      metalness: 0.3,
-      roughness: 0.4,
-      envMap: environmentMapTexture,
-      envMapIntensity: 0.5,
-    }),
-  );
+  const mesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
+  mesh.scale.set(radius, radius, radius);
   mesh.castShadow = true;
   mesh.position.copy(position);
   scene.add(mesh);
