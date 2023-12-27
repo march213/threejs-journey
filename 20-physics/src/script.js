@@ -3,6 +3,20 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import GUI from 'lil-gui';
 import CANNON from 'cannon';
 
+const hitSound = new Audio('/sounds/hit.mp3');
+
+// try different sound
+// add a very short delay where the sound cannot play again after being played once
+// scale volume accordingly to the impact strength
+const playHitSound = (collision) => {
+  const collisionImpactStrength = collision.contact.getImpactVelocityAlongNormal();
+  if (collisionImpactStrength > 1.5) {
+    hitSound.volume = Math.random();
+    hitSound.currentTime = 0;
+    hitSound.play();
+  }
+};
+
 /**
  * Debug
  */
@@ -213,6 +227,7 @@ const createSphere = (radius, position) => {
     material: defaultContactMaterial,
   });
   body.position.copy(position);
+  body.addEventListener('collide', playHitSound);
   world.addBody(body);
 
   // Save objects to update
@@ -246,6 +261,7 @@ const createBox = (width, height, depth, position) => {
     material: defaultContactMaterial,
   });
   body.position.copy(position);
+  body.addEventListener('collide', playHitSound);
   world.addBody(body);
 
   // Save objects to update
