@@ -7,6 +7,17 @@ import CANNON from 'cannon';
  * Debug
  */
 const gui = new GUI();
+const debugObject = {};
+
+debugObject.createSphere = () => {
+  createSphere(Math.random() * 0.5, {
+    x: (Math.random() - 0.5) * 3,
+    y: 3,
+    z: (Math.random() - 0.5) * 3,
+  });
+};
+
+gui.add(debugObject, 'createSphere');
 
 /**
  * Base
@@ -163,6 +174,44 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 /**
+ * Utils
+ */
+
+const objectsToUpdate = [];
+
+const createSphere = (radius, position) => {
+  const mesh = new THREE.Mesh(
+    new THREE.SphereGeometry(radius, 32, 32),
+    new THREE.MeshStandardMaterial({
+      metalness: 0.3,
+      roughness: 0.4,
+      envMap: environmentMapTexture,
+      envMapIntensity: 0.5,
+    }),
+  );
+  mesh.castShadow = true;
+  mesh.position.copy(position);
+  scene.add(mesh);
+
+  // Cannon.js body
+  const shape = new CANNON.Sphere(radius);
+  const body = new CANNON.Body({
+    mass: 1,
+    position: new CANNON.Vec3(0, 3, 0),
+    shape,
+    material: defaultContactMaterial,
+  });
+  body.position.copy(position);
+  world.addBody(body);
+
+  // Save objects to update
+  objectsToUpdate.push({
+    mesh,
+    body,
+  });
+};
+
+/**
  * Animate
  */
 const clock = new THREE.Clock();
@@ -177,6 +226,10 @@ const tick = () => {
   //   sphereBody.applyForce(new CANNON.Vec3(-0.5, 0, 0), sphereBody.position);
 
   world.step(1 / 60, deltaTime, 3);
+
+  for (const obj of objectsToUpdate) {
+    obj.mesh.position.copy(obj.body.position);
+  }
 
   //   sphere.position.copy(sphereBody.position);
   //   sphere.position.x = sphereBody.position.x;
