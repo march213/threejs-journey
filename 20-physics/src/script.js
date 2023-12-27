@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import GUI from 'lil-gui';
-import CANNON from 'cannon';
+import * as CANNON from 'cannon-es';
 
 const hitSound = new Audio('/sounds/hit.mp3');
 
@@ -41,7 +41,7 @@ debugObject.reset = () => {
   for (const obj of objectsToUpdate) {
     // remove body from world
     obj.body.removeEventListener('collide', playHitSound);
-    world.remove(obj.body);
+    world.removeBody(obj.body);
 
     // remove mesh from scene
     scene.remove(obj.mesh);
