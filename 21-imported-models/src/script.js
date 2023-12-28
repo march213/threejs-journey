@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import GUI from 'lil-gui';
 
 /**
@@ -13,6 +15,54 @@ const canvas = document.querySelector('canvas.webgl');
 
 // Scene
 const scene = new THREE.Scene();
+
+/**
+ * Models
+ */
+
+// const gltfLoader = new GLTFLoader();
+// gltfLoader.load('/models/FlightHelmet/glTF/FlightHelmet.gltf', (gltf) => {
+//   //   while (gltf.scene.children.length) {
+//   //     scene.add(gltf.scene.children[0]);
+//   //   }
+//   //   const children = [...gltf.scene.children];
+//   //   for (const child of children) {
+//   //     scene.add(child);
+//   //   }
+//   scene.add(gltf.scene);
+// });
+
+// Loading a model using DRACO
+// const dracoLoader = new DRACOLoader();
+// dracoLoader.setDecoderPath('/draco/');
+
+// const gltfLoader = new GLTFLoader();
+// gltfLoader.setDRACOLoader(dracoLoader);
+// gltfLoader.load('/models/Duck/glTF-Draco/Duck.gltf', (gltf) => {
+//   //   while (gltf.scene.children.length) {
+//   //     scene.add(gltf.scene.children[0]);
+//   //   }
+//   //   const children = [...gltf.scene.children];
+//   //   for (const child of children) {
+//   //     scene.add(child);
+//   //   }
+//   scene.add(gltf.scene);
+// });
+
+let mixer = null;
+let action = null;
+
+const gltfLoader = new GLTFLoader();
+
+gltfLoader.load('/models/Fox/glTF/Fox.gltf', (gltf) => {
+  mixer = new THREE.AnimationMixer(gltf.scene);
+  action = mixer.clipAction(gltf.animations[0]);
+
+  action.play();
+
+  gltf.scene.scale.set(0.03, 0.03, 0.03);
+  scene.add(gltf.scene);
+});
 
 /**
  * Floor
@@ -102,6 +152,11 @@ const tick = () => {
   const elapsedTime = clock.getElapsedTime();
   const deltaTime = elapsedTime - previousTime;
   previousTime = elapsedTime;
+
+  // Update mixer
+  if (mixer !== null) {
+    mixer.update(deltaTime);
+  }
 
   // Update controls
   controls.update();
