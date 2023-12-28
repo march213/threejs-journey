@@ -83,9 +83,16 @@ window.addEventListener('resize', () => {
  * Mouse
  */
 const mouse = new THREE.Vector2();
+
 window.addEventListener('mousemove', (event) => {
   mouse.x = (event.clientX / sizes.width) * 2 - 1;
   mouse.y = -(event.clientY / sizes.height) * 2 + 1;
+});
+
+window.addEventListener('click', () => {
+  if (currentIntersection) {
+    console.log('click on a sphere');
+  }
 });
 
 /**
@@ -114,6 +121,8 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
  */
 const clock = new THREE.Clock();
 
+let currentIntersection = null;
+
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
 
@@ -134,6 +143,18 @@ const tick = () => {
 
   for (const intersect of intersects) {
     intersect.object.material.color.set('#0000ff');
+  }
+
+  if (intersects.length) {
+    if (currentIntersection === null) {
+      console.log('mouse enter');
+    }
+    currentIntersection = intersects[0];
+  } else {
+    if (currentIntersection) {
+      console.log('mouse leave');
+    }
+    currentIntersection = null;
   }
 
   // Update controls
