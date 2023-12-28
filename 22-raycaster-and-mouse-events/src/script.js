@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import GUI from 'lil-gui';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 /**
  * Base
@@ -39,6 +40,17 @@ scene.add(object1, object2, object3);
 object1.updateMatrixWorld();
 object2.updateMatrixWorld();
 object3.updateMatrixWorld();
+
+/**
+ * Model
+ */
+let model = null;
+const gltfLoader = new GLTFLoader();
+gltfLoader.load('./models/Duck/glTF-Binary/Duck.glb', (gltf) => {
+  model = gltf.scene;
+  model.position.y = -1.2;
+  scene.add(model);
+});
 
 /**
  * Raycaster
@@ -106,6 +118,16 @@ window.addEventListener('click', () => {
 });
 
 /**
+ * Lights
+ */
+
+const ambientLight = new THREE.AmbientLight('#ffffff', 0.9);
+scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight('#ffffff', 2.1);
+scene.add(directionalLight);
+
+/**
  * Camera
  */
 // Base camera
@@ -165,6 +187,16 @@ const tick = () => {
       console.log('mouse leave');
     }
     currentIntersection = null;
+  }
+
+  // test intersection with a duck
+  if (model) {
+    const modelIntersect = raycaster.intersectObject(model);
+    if (modelIntersect.length) {
+      model.scale.set(1.1, 1.1, 1.1);
+    } else {
+      model.scale.set(1, 1, 1);
+    }
   }
 
   // Update controls
