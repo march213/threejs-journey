@@ -80,6 +80,15 @@ window.addEventListener('resize', () => {
 });
 
 /**
+ * Mouse
+ */
+const mouse = new THREE.Vector2();
+window.addEventListener('mousemove', (event) => {
+  mouse.x = (event.clientX / sizes.width) * 2 - 1;
+  mouse.y = -(event.clientY / sizes.height) * 2 + 1;
+});
+
+/**
  * Camera
  */
 // Base camera
@@ -113,10 +122,8 @@ const tick = () => {
   object2.position.y = Math.sin(elapsedTime * 0.8) * 1.5;
   object3.position.y = Math.sin(elapsedTime * 1.4) * 1.5;
 
-  const rayOrigin = new THREE.Vector3(-3, 0, 0);
-  const rayDirection = new THREE.Vector3(1, 0, 0);
-  rayDirection.normalize();
-  raycaster.set(rayOrigin, rayDirection);
+  // Cast a ray
+  raycaster.setFromCamera(mouse, camera);
 
   const objectToTest = [object1, object2, object3];
   const intersects = raycaster.intersectObjects(objectToTest);
