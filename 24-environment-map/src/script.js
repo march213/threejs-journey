@@ -91,12 +91,15 @@ gui.add(global, 'envMapIntensity').min(0).max(10).step(0.001).onFinishChange(upd
 // scene.environment = environmentMap;
 // scene.background = environmentMap;
 
+// Ground prjected skybox
 rgbeLoader.load('/environmentMaps/2/2k.hdr', (environmentMap) => {
   environmentMap.mapping = THREE.EquirectangularReflectionMapping;
 
   scene.environment = environmentMap;
   // Skybox
   const skybox = new GroundProjectedSkybox(environmentMap);
+  skybox.radius = 120;
+  skybox.height = 11;
   skybox.scale.setScalar(50);
   scene.add(skybox);
 
