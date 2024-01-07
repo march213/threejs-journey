@@ -63,11 +63,11 @@ gui.add(global, 'envMapIntensity').min(0).max(10).step(0.001).onFinishChange(upd
 // scene.background = environmentMap;
 
 // HDR (RGBE) equirectangular
-rgbeLoader.load('/environmentMaps/0/2k.hdr', (environmentMap) => {
+rgbeLoader.load('/environmentMaps/blender-studioLight-2k.hdr', (environmentMap) => {
   environmentMap.mapping = THREE.EquirectangularReflectionMapping;
 
   scene.environment = environmentMap;
-  scene.background = environmentMap;
+  // scene.background = environmentMap;
 });
 
 /**
