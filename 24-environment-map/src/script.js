@@ -12,6 +12,7 @@ const gltfLoader = new GLTFLoader();
 const cubeTextureLoader = new THREE.CubeTextureLoader();
 const rgbeLoader = new RGBELoader();
 const exrLoader = new EXRLoader();
+const textureLoader = new THREE.TextureLoader();
 
 /**
  * Base
@@ -73,12 +74,21 @@ gui.add(global, 'envMapIntensity').min(0).max(10).step(0.001).onFinishChange(upd
 // });
 
 // HDR (EXR) equirectangular
-exrLoader.load('/environmentMaps/nvidiaCanvas-4k.exr', (environmentMap) => {
-  environmentMap.mapping = THREE.EquirectangularReflectionMapping;
+// exrLoader.load('/environmentMaps/nvidiaCanvas-4k.exr', (environmentMap) => {
+//   environmentMap.mapping = THREE.EquirectangularReflectionMapping;
 
-  scene.environment = environmentMap;
-  scene.background = environmentMap;
-});
+//   scene.environment = environmentMap;
+//   scene.background = environmentMap;
+// });
+
+// LDR equirectangular
+const environmentMap = textureLoader.load(
+  '/environmentMaps/blockadesLabsSkybox/digital_painting_neon_city_night_orange_lights_.jpg',
+);
+environmentMap.mapping = THREE.EquirectangularReflectionMapping;
+environmentMap.colorSpace = THREE.SRGBColorSpace;
+scene.environment = environmentMap;
+scene.background = environmentMap;
 
 /**
  * Torus Knot
