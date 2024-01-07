@@ -31,6 +31,7 @@ scene.add(torusKnot);
  * Helmet
  */
 gltfLoader.load('/models/FlightHelmet/glTF/FlightHelmet.gltf', (gltf) => {
+  gltf.scene.scale.set(10, 10, 10);
   scene.add(gltf.scene);
 });
 
