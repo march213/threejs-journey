@@ -74,12 +74,17 @@ rgbeLoader.load('/environmentMaps/0/2k.hdr', (environmentMap) => {
 
 const directionalLight = new THREE.DirectionalLight('#ffffff', 6);
 directionalLight.position.set(-4, 6.5, 2.5);
+directionalLight.shadow.normalBias = 0.027;
+directionalLight.shadow.bias = -0.004;
 scene.add(directionalLight);
 
 gui.add(directionalLight, 'intensity', 0, 10, 0.001).name('lightIntensity');
 gui.add(directionalLight.position, 'x', -10, 10, 0.001).name('lightX');
 gui.add(directionalLight.position, 'y', -10, 10, 0.001).name('lightY');
 gui.add(directionalLight.position, 'z', -10, 10, 0.001).name('lightZ');
+
+gui.add(directionalLight.shadow, 'normalBias', -0.05, 0.05, 0.001);
+gui.add(directionalLight.shadow, 'bias', -0.05, 0.05, 0.001);
 
 // Shadows
 directionalLight.castShadow = true;
@@ -99,8 +104,17 @@ directionalLight.target.updateWorldMatrix();
  * Models
  */
 // Helmet
-gltfLoader.load('/models/FlightHelmet/glTF/FlightHelmet.gltf', (gltf) => {
-  gltf.scene.scale.set(10, 10, 10);
+// gltfLoader.load('/models/FlightHelmet/glTF/FlightHelmet.gltf', (gltf) => {
+//   gltf.scene.scale.set(10, 10, 10);
+//   scene.add(gltf.scene);
+
+//   updateAllMaterials();
+// });
+
+// Burger
+gltfLoader.load('/models/hamburger.glb', (gltf) => {
+  gltf.scene.scale.set(0.4, 0.4, 0.4);
+  gltf.scene.position.set(0, 2.5, 0);
   scene.add(gltf.scene);
 
   updateAllMaterials();
