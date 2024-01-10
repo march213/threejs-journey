@@ -12,12 +12,14 @@ const rgbeLoader = new RGBELoader();
 const textureLoader = new THREE.TextureLoader();
 
 const woodColorTexture = textureLoader.load('/textures/wood_cabinet_worn_long/wood_cabinet_worn_long_diff_1k.jpg');
+woodColorTexture.colorSpace = THREE.SRGBColorSpace;
 const woodNormalTexture = textureLoader.load('/textures/wood_cabinet_worn_long/wood_cabinet_worn_long_nor_gl_1k.png');
 const woodAORoughnessMetalnessTexture = textureLoader.load(
   '/textures/wood_cabinet_worn_long/wood_cabinet_worn_long_arm_1k.jpg',
 );
 
 const brickColorTexture = textureLoader.load('/textures/castle_brick_broken_06/castle_brick_broken_06_diff_1k.jpg');
+brickColorTexture.colorSpace = THREE.SRGBColorSpace;
 const brickNormalTexture = textureLoader.load('/textures/castle_brick_broken_06/castle_brick_broken_06_nor_gl_1k.png');
 const brickAORoughnessMetalnessTexture = textureLoader.load(
   '/textures/castle_brick_broken_06/castle_brick_broken_06_arm_1k.jpg',
