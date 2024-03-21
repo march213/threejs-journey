@@ -11,4 +11,14 @@ export default [
       "textures/environmentMap/nz.jpg",
     ],
   },
+  {
+    name: "dirtColorTexture",
+    type: "texture",
+    path: "textures/dirt/color.jpg",
+  },
+  {
+    name: "dirtNormalTexture",
+    type: "texture",
+    path: "textures/dirt/normal.jpg",
+  },
 ];
