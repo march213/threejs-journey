@@ -25,7 +25,7 @@ export default class Environment {
 
   setEnvironmentMap = () => {
     this.environmentMap = {};
-    this.environmentMap.intesity = 0.4;
+    this.environmentMap.intensity = 0.4;
     this.environmentMap.texture = this.resources.items.environmentMapTexture;
     this.environmentMap.texture.colorSpace = THREE.SRGBColorSpace;
 
@@ -40,5 +40,6 @@ export default class Environment {
         }
       });
     };
+    this.environmentMap.updateMaterials();
   };
 }
