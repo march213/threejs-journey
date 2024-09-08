@@ -1,7 +1,16 @@
 varying vec2 vUv;
 
-float random (vec2 st) {
-    return fract(sin(dot(st.xy,vec2(12.9898,78.233)))*43758.5453123);
+#define PI 3.141592653589793
+
+float random(vec2 st) {
+    return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
+}
+
+vec2 rotate(vec2 uv, float rotation, vec2 mid) {
+    return vec2(
+        cos(rotation) * (uv.x - mid.x) + sin(rotation) * (uv.y - mid.y) + mid.x,
+        cos(rotation) * (uv.y - mid.y) - sin(rotation) * (uv.x - mid.x) + mid.y
+    );
 }
 
 void main() {
@@ -128,13 +137,28 @@ void main() {
     // float strength = 0.015 /  distance(lightUV, vec2(0.5));
 
     // Pattern #31
-    vec2 lightUVX = vec2(vUv.x * 0.1 + 0.45,vUv.y * 0.5 + 0.25);
-    float lightX = 0.015 /  distance(lightUVX, vec2(0.5));
+    // vec2 lightUVX = vec2(vUv.x * 0.1 + 0.45,vUv.y * 0.5 + 0.25);
+    // float lightX = 0.015 /  distance(lightUVX, vec2(0.5));
+    // vec2 lightUVY = vec2(vUv.y * 0.1 + 0.45,vUv.x * 0.5 + 0.25);
+    // float lightY = 0.015 /  distance(lightUVY, vec2(0.5));
+    // float strength = lightX * lightY;
 
-    vec2 lightUVY = vec2(vUv.y * 0.1 + 0.45,vUv.x * 0.5 + 0.25);
-    float lightY = 0.015 /  distance(lightUVY, vec2(0.5));
+    // Pattern #32
+    // vec2 rotatedUV = rotate(vUv, PI * 0.25, vec2(0.5));
+    // vec2 lightUVX = vec2(rotatedUV.x * 0.1 + 0.45,rotatedUV.y * 0.5 + 0.25);
+    // float lightX = 0.015 /  distance(lightUVX, vec2(0.5));
+    // vec2 lightUVY = vec2(rotatedUV.y * 0.1 + 0.45,rotatedUV.x * 0.5 + 0.25);
+    // float lightY = 0.015 /  distance(lightUVY, vec2(0.5));
+    // float strength = lightX * lightY;
 
-    float strength = lightX * lightY;
+    // Pattern #33
+    // float strength = step(0.25, distance(vUv, vec2(0.5)));
+
+    // Pattern #34
+    // float strength = step(0.01, abs(distance(vUv, vec2(0.5)) - 0.25));
+
+    // Pattern #35
+    float strength = 1.0 - step(0.01, abs(distance(vUv, vec2(0.5)) - 0.25));
 
     gl_FragColor = vec4(vec3(strength), 1.0);
 }
