@@ -158,7 +158,15 @@ void main() {
     // float strength = step(0.01, abs(distance(vUv, vec2(0.5)) - 0.25));
 
     // Pattern #35
-    float strength = 1.0 - step(0.01, abs(distance(vUv, vec2(0.5)) - 0.25));
+    // float strength = 1.0 - step(0.01, abs(distance(vUv, vec2(0.5)) - 0.25));
+
+    // Pattern #36
+    // vec2 waveUV = vec2(vUv.x, vUv.y + sin(vUv.x * 30.0) * 0.1);
+    // float strength = 1.0 - step(0.01, abs(distance(waveUV, vec2(0.5)) - 0.25));
+
+    // Pattern #37
+    vec2 waveUV = vec2(vUv.x + sin(vUv.y * 30.0) * 0.1, vUv.y + sin(vUv.x * 30.0) * 0.1);
+    float strength = 1.0 - step(0.01, abs(distance(waveUV, vec2(0.5)) - 0.25));
 
     gl_FragColor = vec4(vec3(strength), 1.0);
 }
