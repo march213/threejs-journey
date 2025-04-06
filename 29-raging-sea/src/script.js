@@ -8,7 +8,9 @@ import waterFragmentShader from "./shaders/water/fragment.glsl";
  * Base
  */
 // Debug
-const gui = new GUI({ width: 340 });
+const gui = new GUI({
+  width: 340,
+});
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
@@ -17,7 +19,7 @@ const canvas = document.querySelector("canvas.webgl");
 const scene = new THREE.Scene();
 
 /**
- * Water
+ * Waters
  */
 // Geometry
 const waterGeometry = new THREE.PlaneGeometry(2, 2, 128, 128);
@@ -92,7 +94,12 @@ window.addEventListener("resize", () => {
  * Camera
  */
 // Base camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
+const camera = new THREE.PerspectiveCamera(
+  75,
+  sizes.width / sizes.height,
+  0.1,
+  100,
+);
 camera.position.set(1, 1, 1);
 scene.add(camera);
 
