@@ -8,6 +8,7 @@ import { GlitchPass } from "three/examples/jsm/postprocessing/GlitchPass.js";
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
 import { RGBShiftShader } from "three/examples/jsm/shaders/RGBShiftShader.js";
 import { GammaCorrectionShader } from "three/examples/jsm/shaders/GammaCorrectionShader.js";
+import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 
 import GUI from "lil-gui";
 
@@ -145,7 +146,13 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
  * Post Processing
  */
 
-const effectComposer = new EffectComposer(renderer);
+// Render target
+const renderTarget = new THREE.WebGLRenderTarget(800, 600);
+
+const effectComposer = new EffectComposer(renderer, renderTarget, {
+  // on devices witht the high pixel ratio, we dont need to use more samples
+  samples: renderer.getPixelRatio() === 1 ? 2 : 0,
+});
 effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 effectComposer.setSize(sizes.width, sizes.height);
 
@@ -163,6 +170,10 @@ effectComposer.addPass(glitchPass);
 const rgbShiftPass = new ShaderPass(RGBShiftShader);
 rgbShiftPass.enabled = false;
 effectComposer.addPass(rgbShiftPass);
+
+const unrealBloomPass = new UnrealBloomPass();
+unrealBloomPass.enabled = true;
+effectComposer.addPass(unrealBloomPass);
 
 const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);
 gammaCorrectionPass.enabled = true;
