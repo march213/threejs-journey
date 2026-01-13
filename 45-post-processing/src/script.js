@@ -4,6 +4,11 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { DotScreenPass } from "three/examples/jsm/postprocessing/DotScreenPass.js";
+import { GlitchPass } from "three/examples/jsm/postprocessing/GlitchPass.js";
+import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
+import { RGBShiftShader } from "three/examples/jsm/shaders/RGBShiftShader.js";
+import { GammaCorrectionShader } from "three/examples/jsm/shaders/GammaCorrectionShader.js";
+
 import GUI from "lil-gui";
 
 /**
@@ -144,7 +149,20 @@ const renderPass = new RenderPass(scene, camera);
 effectComposer.addPass(renderPass);
 
 const dotScreenPass = new DotScreenPass();
+dotScreenPass.enabled = false;
 effectComposer.addPass(dotScreenPass);
+
+const glitchPass = new GlitchPass();
+glitchPass.enabled = false;
+effectComposer.addPass(glitchPass);
+
+const rgbShiftPass = new ShaderPass(RGBShiftShader);
+rgbShiftPass.enabled = true;
+effectComposer.addPass(rgbShiftPass);
+
+const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);
+gammaCorrectionPass.enabled = true;
+effectComposer.addPass(gammaCorrectionPass);
 
 /**
  * Animate
@@ -166,3 +184,12 @@ const tick = () => {
 };
 
 tick();
+
+// Cleanup for HMR
+if (import.meta.hot) {
+  import.meta.hot.dispose(() => {
+    renderer.dispose();
+    effectComposer.dispose();
+    gui.destroy();
+  });
+}
